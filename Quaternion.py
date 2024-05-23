@@ -3,7 +3,7 @@ import numpy as np
 # custom quaternion class that's probably very slow but good for learning
 class quaternion:
   def __init__(self, w, x, y, z):
-    self.q = np.array(w, x, y, z)
+    self.q = np.array([w, x, y, z])
 
   def fromArray(array):
     return quaternion(array[0], array[1], array[2], array[3])
