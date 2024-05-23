@@ -46,6 +46,22 @@ class quaternion:
                       (r[0][2] - r[2][0]) / (4*w),
                       (r[1][0] - r[0][1]) / (4*w)
                      ).normalized()
+  
+  def fromPoint(point):
+    # creates "pure" quaternion (0, x, y, z)
+    return quaternion(0, point[0], point[1], point[2])
+  
+  def asPoint(self):
+    # returns (x, y, z) if given (w, x, y, z)
+    q = self.q
+    return np.array([q[1], q[2], q[3]])
+
+  def applyToPoint(self, point):
+    # applies rotation quaternion to vector3D point
+    q = quaternion.fromPoint(point)
+    qp = self*q*(self.inverse())
+
+    return qp.asPoint()
 
   def getQ(self):
     return self.q
