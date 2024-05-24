@@ -10,6 +10,11 @@ class quaternion:
 
   def fromAxisAngle(theta, x, y, z):
     # constructor for making quaternions from axis angle representation
+    mag = np.sqrt(x**2 + y**2 + z**2)
+    x /= mag
+    y /= mag
+    z /= mag
+    
     return quaternion(np.cos(theta/2), 
                       x*np.sin(theta/2), 
                       y*np.sin(theta/2), 
