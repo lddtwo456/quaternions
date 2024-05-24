@@ -17,3 +17,6 @@ class v3d:
         return self.v[2]
       case _:
         return super().__getattribute__(attr)
+      
+  def __str__(self):
+    return f"v3d x:{round(self.x*1000)/1000}, y:{round(self.y*1000)/1000}, z:{round(self.z*1000)/1000}"
