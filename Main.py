@@ -1,4 +1,5 @@
 import numpy as np
+import pyopencl as cl
 from Quaternion import quaternion
 from Vector3D import v3d
 
@@ -10,3 +11,5 @@ print(q)
 v = v3d(2, 3, 5)
 
 print(q.applyToPoint(p))
+
+print(cl.VERSION)
