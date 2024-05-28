@@ -26,7 +26,6 @@ clock = pygame.time.Clock()
 
 run = True
 while run:
-  t = time.time()
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
@@ -34,13 +33,15 @@ while run:
       sys.exit()
 
   # execute code
+  t = time.time()
   evt = prg.redify(queue, (win.w, win.h), None, win.IMGbuf, win.writeIMG)
   evt.wait()
+  print(time.time()-t)
+  t = time.time()
   win.IMGbuf = win.writeIMG
-
+  print(time.time() - t)
+  t = time.time()
   win.updateWIN()
+  print(f"{time.time()-t}\n")
 
-  print(time.time()-t)
   clock.tick(60)
-  print(time.time()-t)
-  print('')
