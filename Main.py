@@ -29,10 +29,8 @@ times_per_loop = {}
 times = []
 prev_time = 0
 
-inp = input("run performance test? Y/N: ")
-if inp == 'Y' or inp == 'y':
-  test = True
-
+test = False
+if test:
   def recordTime(label):
     times_per_loop.update({label : time.time()})
   def addTimes(loopNum):
@@ -40,7 +38,6 @@ if inp == 'Y' or inp == 'y':
     loopNum += 1
     times_per_loop.clear()
 else:
-  test = False
   def recordTime(label):
     pass
   def addTimes(label):
@@ -69,8 +66,6 @@ def runLoop(run, loopNum, clockmult):
   clock.tick(60*clockmult)
   recordTime("end frame")
   addTimes(loopNum)
-
-
 
 if test:
   for i in range(int(input("test loops: "))):
@@ -110,7 +105,6 @@ if test:
   print(f"{"total frame time".ljust(max_key_len)} - {int(total*100000)/100000}")
   print(f"    FPS   =   {int(1/total*100000)/100000}")
   print('')
-
 else:
   run = True
   while run:
