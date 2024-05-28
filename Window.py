@@ -22,8 +22,7 @@ class Window:
   def updateWIN(self):
     cl.enqueue_copy(self.queue, self.data_out, self.IMGbuf, origin=(0,0,0), region=(self.w,self.h, 1))
 
-    SURF = pygame.surfarray.make_surface(self.data_out[:,:,:3].swapaxes(0, 1))
-    self.WIN.blit(SURF, (0,0))
+    pygame.surfarray.blit_array(self.WIN, self.data_out[:,:,:3].swapaxes(0, 1))
     pygame.display.flip()
 
   def getIMGbuf(self):
