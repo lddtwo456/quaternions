@@ -1,9 +1,9 @@
-__kernel void redify(__global uchar* data) {
-  int global_id = get_global_id(0);
+__kernel void redify(__read_only image2d_t imgIN, __write_only image2d_t imgOUT) {
+  const int2 pos = (int2)(get_global_id(0), get_global_id(1));
+  const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_CLAMP_TO_EDGE | CLK_FILTER_NEAREST;
 
-  if (global_id < get_global_size(0)) {
-    uchar3 pixel = vload3(global_id, data);
-    pixel.x += 1;
-    vstore3(pixel, global_id, data);
-  }
+  uint4 px = read_imageui(imgIN, sampler, pos);
+  px.x += 1;
+
+  write_imageui(imgOUT, pos, px);
 }
