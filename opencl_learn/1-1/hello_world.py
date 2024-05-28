@@ -7,7 +7,7 @@ TASKS = 64
 if __name__ == '__main__':
 
     print('load program from cl source file')
-    f = open('hello_world.cl', 'r', encoding='utf-8')
+    f = open('./opencl_learn/1-1/hello_world.cl', 'r', encoding='utf-8')
     kernels = ''.join(f.readlines())
     f.close()
 
