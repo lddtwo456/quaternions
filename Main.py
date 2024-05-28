@@ -7,18 +7,6 @@ from Quaternion import quaternion
 from Vector3D import v3d
 from Window import Window
 
-p = v3d(2, 2, 2)
-q = quaternion.fromEulerDeg(v3d(90, 0, 0))
-
-print(q)
-
-v = v3d(2, 3, 5)
-
-print(q.applyToPoint(p))
-
-print(cl.VERSION)
-
-# this is going to be hell
 width, height = 800, 600
 
 # cl init
@@ -28,7 +16,7 @@ ctx = cl.Context([device])
 queue = cl.CommandQueue(ctx)
 
 # build program
-kernels = ''.join(open('./cl/redderfier.cl', 'r', encoding='utf-8').readlines())
+kernels = ''.join(open('./cl/redify.cl', 'r', encoding='utf-8').readlines())
 prg = cl.Program(ctx, kernels).build()
 
 # pygame init 
@@ -38,6 +26,7 @@ clock = pygame.time.Clock()
 
 run = True
 while run:
+  t = time.time()
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
@@ -50,4 +39,8 @@ while run:
   win.IMGbuf = win.writeIMG
 
   win.updateWIN()
+
+  print(time.time()-t)
   clock.tick(60)
+  print(time.time()-t)
+  print('')
