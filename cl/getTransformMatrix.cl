@@ -29,10 +29,10 @@ __kernel void getTransformMatrix(__global float4* position, __global float4* qua
   };
 
   float4x4 transformationMatrix = {
-    (float4)(rotationMatrix.col[0].x * sclv.x, rotationMatrix.col[1].x * sclv.y, rotationMatrix.col[2].x * sclv.z, 0.0f),
-    (float4)(rotationMatrix.col[0].y * sclv.x, rotationMatrix.col[1].y * sclv.y, rotationMatrix.col[2].y * sclv.z, 0.0f),
-    (float4)(rotationMatrix.col[0].z * sclv.x, rotationMatrix.col[1].z * sclv.y, rotationMatrix.col[2].z * sclv.z, 0.0f),
-    (float4)(posv.x, posv.y, posv.z, 1.0f)
+    (float4)(rotationMatrix.col[0].x * scl.x, rotationMatrix.col[1].x * scl.y, rotationMatrix.col[2].x * scl.z, 0.0f),
+    (float4)(rotationMatrix.col[0].y * scl.x, rotationMatrix.col[1].y * scl.y, rotationMatrix.col[2].y * scl.z, 0.0f),
+    (float4)(rotationMatrix.col[0].z * scl.x, rotationMatrix.col[1].z * scl.y, rotationMatrix.col[2].z * scl.z, 0.0f),
+    (float4)(pos.x, pos.y, pos.z, 1.0f)
   };
 
   outputMatrix[index] = transformationMatrix;

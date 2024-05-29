@@ -33,7 +33,15 @@ prev_time = 0
 # object handler init
 ObjectsHandler.init(ctx, queue)
 ObjectsHandler.addObject(model="./Models/teapot.obj")
+ObjectsHandler.addObject(model="./Models/teapot.obj")
+ObjectsHandler.addObject(model="./Models/teapot.obj")
+ObjectsHandler.addObject(model="./Models/teapot.obj")
+ObjectsHandler.addObject(model="./Models/teapot.obj")
+ObjectsHandler.addObject(model="./Models/teapot.obj")
+ObjectsHandler.addObject(model="./Models/teapot.obj")
+ObjectsHandler.addObject(model="./Models/teapot.obj", qat=Quaternion.fromEulerDeg(v3d(0,90,0)))
 ObjectsHandler.getVBOs()
+ObjectsHandler.getTransforms()
 
 # main run loop
 
