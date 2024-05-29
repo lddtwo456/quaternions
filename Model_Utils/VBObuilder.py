@@ -11,6 +11,7 @@ class VBObuilder:
     vert_map = {}
     new_indices = []
     new_vertices = []
+    print(indices)
     for i in range(int(len(indices)/3)):
       # prepare vertex, normal, and texcoord data at indices
       v_i = indices[i*3]-1
