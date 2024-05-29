@@ -80,9 +80,6 @@ class Quaternion:
 
   def getQ(self):
     return self.q
-  
-  def print(self):
-    print(self.q)
 
   def inverse(self):
     q = self
