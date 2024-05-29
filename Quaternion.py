@@ -3,7 +3,7 @@ import numpy as np
 from Vector3D import v3d
 
 # custom quaternion class that's probably very slow but good for learning
-class quaternion:
+class Quaternion:
   def __init__(self, w, x, y, z):
     self.q = np.array([w, x, y, z])
 
