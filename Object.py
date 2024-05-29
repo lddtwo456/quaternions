@@ -32,20 +32,13 @@ class Object:
   def withModel(self, filename):
     self.model = filename
 
-    # VBOs will all be permanently stored in vram if they are in the scene for now, might change later
-    self.buildVBOs()
-
-    # untranslated AABB for MANY MANY MANY different types of optimizations, maybe later can use to cull non-visible VBOs from vram if needed
-    self.min_corner = np.min(self.vertices, axis=0)
-    self.max_corner = np.max(self.vertices, axis=0)
-
     return self
   
   def setTransformMatrix(self, matrix):
     # calculated in parallel across all objects by ObjectsHandler.py
     self.matrix = matrix
     
-  def buildVBOs(self):
+  def buildBuffers(self):
     if self.model == None:
       raise Exception("object has no model")
     if self.model.endswith("obj"):
@@ -53,14 +46,14 @@ class Object:
     else:
       raise Exception("unsupported model filetype")
     
-    if self.vertices != []:
-      self.VBO = VBObuilder.constructVBO(self.vertices)
-    if self.normals != []:
-      self.NBO = VBObuilder.constructVBO(self.normals)
-    if self.texcoords != []:
-      self.TBO = VBObuilder.constructVBO(self.texcoords)
-    if self.indices != []:
-      self.IBO = VBObuilder.constructVBO(self.indices)
+    self.VBO = VBObuilder.constructVBO(self.vertices)
+    self.NBO = VBObuilder.constructNBO(self.normals)
+    self.TBO = VBObuilder.constructTBO(self.texcoords)
+    self.IBO = VBObuilder.constructIBO(self.indices)
+
+    # untranslated AABB for MANY MANY MANY different types of optimizations, maybe later can use to cull non-visible VBOs from vram if needed
+    self.min_corner = np.min(self.vertices, axis=0)
+    self.max_corner = np.max(self.vertices, axis=0)
 
     self.VBOsBuilt = True
 

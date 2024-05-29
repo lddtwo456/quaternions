@@ -34,12 +34,12 @@ class ObjectsHandler:
     # allow for opbjects with no model later
     ObjectsHandler.objects.update({id : Object(ObjectsHandler.ctx, pos, qat, scl).withModel(model)})
 
-  def getVBOs():
-    print("getting VBOs...")
+  def buildBuffers():
+    print("getting Object Buffers...")
     for key in ObjectsHandler.objects:
       object = ObjectsHandler.objects[key]
 
-      object.buildVBOs()
+      object.buildBuffers()
   
   def getTransforms():
     object_vals = ObjectsHandler.objects.values()
