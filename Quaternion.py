@@ -2,31 +2,31 @@ import numpy as np
 
 from Vector3D import v3d
 
-# custom quaternion class that's probably very slow but good for learning
+# custom Quaternion class that's probably very slow but good for learning
 class Quaternion:
   def __init__(self, w, x, y, z):
     self.q = np.array([w, x, y, z])
 
   def fromArray(array):
-    return quaternion(array[0], array[1], array[2], array[3])
+    return Quaternion(array[0], array[1], array[2], array[3])
 
   def fromAxisAngle(theta, v):
-    # constructor for making quaternions from axis angle representation
+    # constructor for making Quaternions from axis angle representation
     mag = np.sqrt(v.x**2 + v.y**2 + v.z**2)
     v.x /= mag
     v.y /= mag
     v.z /= mag
     
-    return quaternion(np.cos(theta/2), 
+    return Quaternion(np.cos(theta/2), 
                       v.x*np.sin(theta/2), 
                       v.y*np.sin(theta/2), 
                       v.z*np.sin(theta/2))
   
   def fromAxisAngleDeg(theta, v):
-    return quaternion.fromAxisAngle(np.deg2rad(theta), v3d(np.deg2rad(v.x), np.deg2rad(v.y), np.deg2rad(v.z)))
+    return Quaternion.fromAxisAngle(np.deg2rad(theta), v3d(np.deg2rad(v.x), np.deg2rad(v.y), np.deg2rad(v.z)))
   
   def fromEuler(v):
-    # constructor for making quaternions from euler rotations
+    # constructor for making Quaternions from euler rotations
 
     # build rotation matrix
     rx = np.array([
@@ -52,19 +52,19 @@ class Quaternion:
 
     w = np.sqrt(1 + r[0][0] + r[1][1] + r[2][2])/2
 
-    # turn matrix into quaternion
-    return quaternion(w,
+    # turn matrix into Quaternion
+    return Quaternion(w,
                       (r[2][1] - r[1][2]) / (4*w),
                       (r[0][2] - r[2][0]) / (4*w),
                       (r[1][0] - r[0][1]) / (4*w)
                      ).normalized()
   
   def fromEulerDeg(v):
-    return quaternion.fromEuler(v3d(np.deg2rad(v.x), np.deg2rad(v.y), np.deg2rad(v.z)))
+    return Quaternion.fromEuler(v3d(np.deg2rad(v.x), np.deg2rad(v.y), np.deg2rad(v.z)))
   
   def fromPoint(p):
-    # creates "pure" quaternion (0, x, y, z)
-    return quaternion(0, p.x, p.y, p.z)
+    # creates "pure" Quaternion (0, x, y, z)
+    return Quaternion(0, p.x, p.y, p.z)
   
   def asPoint(self):
     # returns (x, y, z) if given (w, x, y, z)
@@ -72,8 +72,8 @@ class Quaternion:
     return v3d(q.x, q.y, q.z)
 
   def applyToPoint(self, p):
-    # applies rotation quaternion to vector3D point
-    q = quaternion.fromPoint(p)
+    # applies rotation Quaternion to vector3D point
+    q = Quaternion.fromPoint(p)
     qp = self*q*(self.inverse())
 
     return qp.asPoint()
@@ -87,16 +87,16 @@ class Quaternion:
   def inverse(self):
     q = self
     divisor = q.w**2 + q.x**2 + q.y**2 + q.z**2
-    return quaternion.fromArray(np.array([q.w, -q.x, -q.y, -q.z])/divisor)
+    return Quaternion.fromArray(np.array([q.w, -q.x, -q.y, -q.z])/divisor)
   
   def normalized(self):
     q = self
     m = np.sqrt(q.w**2 + q.x**2 + q.y**2 + q.z**2)
-    return quaternion.fromArray(q.q / m)
+    return Quaternion.fromArray(q.q / m)
 
   def __mul__(self, p):
     q = self
-    return quaternion(q.w*p.w - q.x*p.x - q.y*p.y - q.z*p.z,
+    return Quaternion(q.w*p.w - q.x*p.x - q.y*p.y - q.z*p.z,
                       q.w*p.x + q.x*p.w + q.y*p.z - q.z*p.y,
                       q.w*p.y - q.x*p.z + q.y*p.w + q.z*p.x,
                       q.w*p.z + q.x*p.y - q.y*p.x + q.z*p.w)

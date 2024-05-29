@@ -3,7 +3,8 @@ import time
 import numpy as np
 import pygame
 import pyopencl as cl
-from Quaternion import quaternion
+from ObjectsHandler import ObjectsHandler
+from Quaternion import Quaternion
 from Vector3D import v3d
 from Window import Window
 
@@ -28,6 +29,11 @@ run = True
 times_per_loop = {}
 times = []
 prev_time = 0
+
+# object handler init
+ObjectsHandler.init(ctx, queue)
+ObjectsHandler.addObject(model="./Models/teapot.obj")
+ObjectsHandler.getVBOs()
 
 # main run loop
 

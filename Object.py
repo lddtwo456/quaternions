@@ -3,19 +3,15 @@ from Model_Utils.VBObuilder import VBObuilder
 from Quaternion import Quaternion
 import numpy as np
 
+from Vector3D import v3d
+
 class Object:
-  def __init__(self, x, y, z, q=Quaternion.fromEuler(0, 0, 0), s=1):
+  def __init__(self, ctx, pos=v3d(0,0,0), q=Quaternion.fromEuler(v3d(0,0,0)), s=1):
     # position, rotation, scale
-    self.x = x
-    self.y = y
-    self.z = z
-
-    self.q = q
-
-    self.s = s
+    
 
     # OpenCL context
-    self.ctx = None
+    self.ctx = ctx
 
     # model and rendering things
     self.model = None
@@ -29,9 +25,6 @@ class Object:
     self.indices = []
     self.IBO = None
 
-  def inContext(self, ctx):
-    self.ctx = ctx
-
   def withModel(self, filename):
     self.model = filename
 
@@ -41,11 +34,13 @@ class Object:
     # untranslated AABB for MANY MANY MANY different types of optimizations, maybe later can use to cull non-visible VBOs from vram if needed
     self.min_corner = np.min(self.vertices, axis=0)
     self.max_corner = np.max(self.vertices, axis=0)
+
+    return self
     
   def buildVBOs(self):
     if self.model == None:
       raise Exception("object has no model")
-    if self.model.endswith("obj", "."):
+    if self.model.endswith("obj"):
       self.vertices, self.normals, self.texcoords, self.indices = ObjParser.parse(self.model)
     else:
       raise Exception("unsupported model filetype")
@@ -68,3 +63,4 @@ class Object:
     self.IBO.release()
 
     self.VBO, self.NBO, self.TBO, self.IBO = None
+    self.VBOsBuilt = False
