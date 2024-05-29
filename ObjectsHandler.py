@@ -55,5 +55,3 @@ class ObjectsHandler:
                                           pos_buffer, qat_buffer, scl_buffer, out_buffer, np.int32(len(ObjectsHandler.objects)))
     
     cl.enqueue_copy(ObjectsHandler.queue, out_mat, out_buffer).wait()
-
-    print(out_mat)
