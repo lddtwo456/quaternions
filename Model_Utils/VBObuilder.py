@@ -11,7 +11,7 @@ class VBObuilder:
     vert_map = {}
     new_indices = []
     new_vertices = []
-    print(indices)
+    
     for i in range(int(len(indices)/3)):
       # prepare vertex, normal, and texcoord data at indices
       v_i = indices[i*3]-1
@@ -34,5 +34,9 @@ class VBObuilder:
       # add index of vertex to indices
       new_indices.append(vert_map[vertex_buffer_data])
 
-    print(new_vertices)
-    print(new_indices)
+    # make flattened np matrices (vert is structured [v.x, v.y, v.z, t.x, t.y, n.x, n.y, n.z])
+    vert_matrix = np.array([item for tupletuple in new_vertices for tuple in tupletuple for item in tuple], dtype=np.float32)
+    indx_matrix = np.array(new_indices, dtype=np.float32)
+
+    return (cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=vert_matrix),
+            cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=indx_matrix))

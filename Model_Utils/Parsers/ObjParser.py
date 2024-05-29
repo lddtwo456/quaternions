@@ -32,8 +32,7 @@ class ObjParser:
               
             while len(int_vertex_data) < 3:
               int_vertex_data.append(0)
-              
-            print(int_vertex_data)
+
             face_indecies.append(int_vertex_data)
 
           for i in range(triangle_count):
