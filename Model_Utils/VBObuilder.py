@@ -11,14 +11,14 @@ class VBObuilder:
     matrix = np.array(vertices, dtype=np.float32)
     return cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=matrix)
   
-  def constructIBO(indices):
-    matrix = np.array(indices, dtype=np.int32)
-    return cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=matrix)
-  
   def constructNBO(normals):
     matrix = np.array(normals, dtype=np.float32)
     return cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=matrix)
   
   def constructTBO(texcoords):
     matrix = np.array(texcoords, dtype=np.float32)
+    return cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=matrix)
+  
+  def constructIBO(indices):
+    matrix = np.array(indices, dtype=np.int32)
     return cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=matrix)
