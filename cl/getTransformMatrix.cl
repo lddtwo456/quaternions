@@ -9,10 +9,6 @@ __kernel void getTransformMatrix(__global float4* position, __global float4* qua
   float4 pos = position[index];
   float4 qat = quaternion[index];
   float4 scl = scale[index];
-  
-  // get simpler position and scale vectors
-  float3 posv = (float3)(pos.x, pos.y, pos.z);
-  float3 sclv = (float3)(scl.x, scl.y, scl.z);
 
   // get rotation matrix from quaternion
   float xx = qat.x * qat.x;
