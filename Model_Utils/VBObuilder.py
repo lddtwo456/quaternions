@@ -20,5 +20,5 @@ class VBObuilder:
     return cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=matrix)
   
   def constructIBO(indices):
-    matrix = np.array(indices, dtype=np.int32)
+    matrix = np.array(indices, dtype=np.uint32)
     return cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=matrix)
