@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import pyopencl as cl
 
@@ -34,6 +35,7 @@ class ObjectsHandler:
     ObjectsHandler.objects.update({id : Object(ObjectsHandler.ctx, pos, qat, scl).withModel(model)})
 
   def getVBOs():
+    print("getting VBOs...")
     for key in ObjectsHandler.objects:
       object = ObjectsHandler.objects[key]
 
@@ -55,3 +57,8 @@ class ObjectsHandler:
                                           pos_buffer, qat_buffer, scl_buffer, out_buffer, np.int32(len(ObjectsHandler.objects)))
     
     cl.enqueue_copy(ObjectsHandler.queue, out_mat, out_buffer).wait()
+    
+    i=0
+    for obj in object_vals:
+      obj.setTransformMatrix(out_mat[i])
+      i+=1

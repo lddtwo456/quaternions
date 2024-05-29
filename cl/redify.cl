@@ -7,6 +7,9 @@ __kernel void redify(__read_only image2d_t imgIN, __write_only image2d_t imgOUT,
   // generate pseudo-random number
   uint random = ((seed*412) * 65536 % pos.x * pos.y / pos.x + pos.y) % 3 + 1;
   // add random number
+  if (px.x > 254) {
+    px.x = 0;
+  }
   px.x += random;
   
   write_imageui(imgOUT, pos, px);
