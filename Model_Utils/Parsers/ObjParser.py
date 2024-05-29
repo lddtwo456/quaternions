@@ -29,6 +29,10 @@ class ObjParser:
                 int_vertex_data.append(int(index))
               else:
                 int_vertex_data.append(0)
+              
+              while len(int_vertex_data) < 3:
+                int_vertex_data.append(0)
+
             face_indecies.append(int_vertex_data)
 
           for i in range(triangle_count):
@@ -37,4 +41,4 @@ class ObjParser:
             indices.append(face_indecies[2+i])
 
     #print(f"{vertices}\n\n{normals}\n\n{texcoords}\n\n{indices}\n\n")
-    return vertices, normals, texcoords, indices
+    return vertices, normals, texcoords, [element  for group in indices for element in group]

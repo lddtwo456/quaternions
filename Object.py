@@ -46,10 +46,7 @@ class Object:
     else:
       raise Exception("unsupported model filetype")
     
-    self.VBO = VBObuilder.constructVBO(self.vertices)
-    self.NBO = VBObuilder.constructNBO(self.normals)
-    self.TBO = VBObuilder.constructTBO(self.texcoords)
-    self.IBO = VBObuilder.constructIBO(self.indices)
+    self.VBO, self.IBO = VBObuilder.buildBuffers(self.vertices, self.normals, self.texcoords, self.indices)
 
     # untranslated AABB for MANY MANY MANY different types of optimizations, maybe later can use to cull non-visible VBOs from vram if needed
     self.min_corner = np.min(self.vertices, axis=0)

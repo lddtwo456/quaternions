@@ -8,7 +8,7 @@ from Quaternion import Quaternion
 from Vector3D import v3d
 from Window import Window
 
-width, height = 1280, 720
+width, height = 800, 600
 
 # cl init
 platform = cl.get_platforms()[0]
@@ -32,9 +32,9 @@ prev_time = 0
 
 # object handler init
 ObjectsHandler.init(ctx, queue)
-objects = 2
+objects = 1
 for i in range(objects):
-  ObjectsHandler.addObject(model="./Models/cube.obj", qat=Quaternion.fromEulerDeg(v3d(np.random.randint(-1800, 1800)/100, np.random.randint(-1800, 1800)/100, np.random.randint(-1800, 1800)/100)),
+  ObjectsHandler.addObject(model="./Models/teapot.obj", qat=Quaternion.fromEulerDeg(v3d(np.random.randint(-1800, 1800)/100, np.random.randint(-1800, 1800)/100, np.random.randint(-1800, 1800)/100)),
                            pos=v3d(np.random.randint(-10000,10000)/100,np.random.randint(-10000,10000)/100,np.random.randint(-10000,10000)/100),
                            scl=v3d(np.random.randint(-1000,1000)/100,np.random.randint(-1000,1000)/100,np.random.randint(-1000,1000)/100))
 ObjectsHandler.buildBuffers()

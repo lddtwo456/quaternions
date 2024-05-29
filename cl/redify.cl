@@ -11,6 +11,7 @@ __kernel void redify(__read_only image2d_t imgIN, __write_only image2d_t imgOUT,
     px.x = 0;
   }
   px.x += random;
+  px.z += random;
   
   write_imageui(imgOUT, pos, px);
 }
