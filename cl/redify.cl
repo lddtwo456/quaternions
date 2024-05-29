@@ -5,9 +5,9 @@ __kernel void redify(__read_only image2d_t imgIN, __write_only image2d_t imgOUT,
   uint4 px = read_imageui(imgIN, sampler, pos);
 
   // generate pseudo-random number
-  uint randomValueR = ((seed*412) * 65536 % pos.x * pos.y / pos.x + pos.y) % 3 + 1;
+  uint random = ((seed*412) * 65536 % pos.x * pos.y / pos.x + pos.y) % 3 + 1;
   // add random number
-  px.x += randomValueR;
+  px.x += random;
   
   write_imageui(imgOUT, pos, px);
 }

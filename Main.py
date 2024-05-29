@@ -29,7 +29,7 @@ times_per_loop = {}
 times = []
 prev_time = 0
 
-test = False
+test = True
 if test:
   def recordTime(label):
     times_per_loop.update({label : time.time()})
