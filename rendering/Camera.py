@@ -19,5 +19,17 @@ class Camera:
       [0, 0, 0, 1]
     ], dtype=np.float32)
 
+  def getProjectionMatrix(self, scw, sch, fov, far):
+    # find near plane distance with screen dimensions and fovx
+    n = scw/(2*np.tan(fov/2))
+    f = far
+
+    return np.array([
+      [1/np.tan(fov/2)/(scw/sch), 0,               0,           0],
+      [0,                         1/np.tan(fov/2), 0,           0],
+      [0,                         0,               (f+n)/(n-f), (2*f*n)/(n-f)],
+      [0,                         0,               -1,          0]
+    ], dtype=np.float32)
+
   def move(self, v):
     self.pos += v

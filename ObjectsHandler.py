@@ -6,7 +6,7 @@ from Model_Utils.VBObuilder import VBObuilder
 from Object import Object
 from Vector3D import v3d
 from Quaternion import Quaternion
-from Camera import Camera
+from rendering.Camera import Camera
 
 class ObjectsHandler:
   objects = {}

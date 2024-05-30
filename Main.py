@@ -3,7 +3,7 @@ import time
 import numpy as np
 import pygame
 import pyopencl as cl
-from Camera import Camera
+from rendering.Camera import Camera
 from ObjectsHandler import ObjectsHandler
 from Quaternion import Quaternion
 from Vector3D import v3d
@@ -41,6 +41,7 @@ ObjectsHandler.buildBuffers()
 
 cam = Camera()
 Renderer.setCam(cam)
+Renderer.setContext(ctx)
 
 # main run loop
 
