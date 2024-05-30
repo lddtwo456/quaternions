@@ -34,14 +34,14 @@ prev_time = 0
 
 # object handler init
 ObjectsHandler.init(ctx, queue)
-objects = 100
+objects = 1
 for i in range(objects):
-  ObjectsHandler.addObject(model="./Models/teapot.obj")
+  ObjectsHandler.addObject(model="./Models/cube.obj")
 ObjectsHandler.buildBuffers()
 
 cam = Camera()
 Renderer.setCam(cam)
-Renderer.setContext(ctx)
+Renderer.init(ctx, queue)
 
 # main run loop
 

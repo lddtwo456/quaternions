@@ -22,12 +22,9 @@ class Object:
     self.VBOsBuilt = False
     self.vertices = []
     self.VBO = None
-    self.normals = []
-    self.NBO = None
-    self.texcoords = []
-    self.TBO = None
     self.indices = []
     self.IBO = None
+    self.vert_count = None
 
   def withModel(self, filename):
     self.model = filename
@@ -46,7 +43,7 @@ class Object:
     else:
       raise Exception("unsupported model filetype")
     
-    self.VBO, self.IBO = VBObuilder.buildBuffers(self.vertices, self.normals, self.texcoords, self.indices)
+    self.VBO, self.IBO, self.vert_count = VBObuilder.buildBuffers(self.vertices, self.normals, self.texcoords, self.indices)
 
     # untranslated AABB for MANY MANY MANY different types of optimizations, maybe later can use to cull non-visible VBOs from vram if needed
     self.min_corner = np.min(self.vertices, axis=0)
@@ -56,9 +53,7 @@ class Object:
 
   def delVBOs(self):
     self.VBO.release()
-    self.NBO.release()
-    self.TBO.release()
     self.IBO.release()
 
-    self.VBO, self.NBO, self.TBO, self.IBO = None
+    self.VBO, self.IBO = None
     self.VBOsBuilt = False

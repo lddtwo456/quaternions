@@ -36,7 +36,10 @@ class VBObuilder:
 
     # make flattened np matrices (vert is structured [v.x, v.y, v.z, t.x, t.y, n.x, n.y, n.z])
     vert_matrix = np.array([item for tupletuple in new_vertices for tuple in tupletuple for item in tuple], dtype=np.float32)
+    for element in vert_matrix:
+      print(element)
     indx_matrix = np.array(new_indices, dtype=np.float32)
 
     return (cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=vert_matrix),
-            cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=indx_matrix))
+            cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=indx_matrix),
+            int(len(vert_matrix)/8))
