@@ -4,7 +4,7 @@ from Vector3D import v3d
 import pyopencl as cl
 
 class Camera:
-  def __init__(self, pos=v3d(0, 0, 0), qat=Quaternion.fromEuler(v3d(0,0,0))):
+  def __init__(self, pos=v3d(0, 0, 0), qat=Quaternion.fromEuler(0,0,0)):
     self.pos = pos
     self.qat = qat
 

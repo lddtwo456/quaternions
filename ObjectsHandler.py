@@ -24,7 +24,7 @@ class ObjectsHandler:
     ObjectsHandler.prg = cl.Program(ctx, kernels).build()
   
   unnamedNum = 0
-  def addObject(id=None, model=None, pos=v3d(0,0,0), qat=Quaternion.fromEuler(v3d(0,0,0)), scl=v3d(1,1,1)):
+  def addObject(id=None, model=None, pos=v3d(0,0,0), qat=Quaternion.fromEuler(0,0,0), scl=v3d(1,1,1)):
     if ObjectsHandler.ctx == None:
       raise Exception("no context defined for object handler")
     

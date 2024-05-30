@@ -6,7 +6,7 @@ import numpy as np
 from Vector3D import v3d
 
 class Object:
-  def __init__(self, ctx, pos=v3d(0,0,0), q=Quaternion.fromEuler(v3d(0,0,0)), s=v3d(1,1,1)):
+  def __init__(self, ctx, pos=v3d(0,0,0), q=Quaternion.fromEuler(0, 0, 0), s=v3d(1,1,1)):
     # position, rotation, scale
     self.pos = pos
     self.qat = q

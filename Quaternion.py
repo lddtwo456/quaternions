@@ -25,25 +25,25 @@ class Quaternion:
   def fromAxisAngleDeg(theta, v):
     return Quaternion.fromAxisAngle(np.deg2rad(theta), v3d(np.deg2rad(v.x), np.deg2rad(v.y), np.deg2rad(v.z)))
   
-  def fromEuler(v):
+  def fromEuler(x,y,z):
     # constructor for making Quaternions from euler rotations
 
     # build rotation matrix
     rx = np.array([
       [1, 0, 0],
-      [0, np.cos(v.x), -np.sin(v.x)],
-      [0, np.sin(v.x), np.cos(v.x)]
+      [0, np.cos(x), -np.sin(x)],
+      [0, np.sin(x), np.cos(x)]
     ])
 
     ry = np.array([
-      [np.cos(v.y), 0, np.sin(v.y)],
+      [np.cos(y), 0, np.sin(y)],
       [0, 1, 0],
-      [-np.sin(v.y), 0, np.cos(v.y)]
+      [-np.sin(y), 0, np.cos(y)]
     ])
 
     rz = np.array([
-      [np.cos(v.z), -np.sin(v.z), 0],
-      [np.sin(v.z), np.cos(v.z), 0],
+      [np.cos(z), -np.sin(z), 0],
+      [np.sin(z), np.cos(z), 0],
       [0, 0, 1]
     ])
 
@@ -59,8 +59,8 @@ class Quaternion:
                       (r[1][0] - r[0][1]) / (4*w)
                      ).normalized()
   
-  def fromEulerDeg(v):
-    return Quaternion.fromEuler(v3d(np.deg2rad(v.x), np.deg2rad(v.y), np.deg2rad(v.z)))
+  def fromEulerDeg(x,y,z):
+    return Quaternion.fromEuler(v3d(np.deg2rad(x), np.deg2rad(y), np.deg2rad(z)))
   
   def fromPoint(p):
     # creates "pure" Quaternion (0, x, y, z)
