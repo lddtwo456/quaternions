@@ -3,6 +3,8 @@ import pyopencl as cl
 import pygame
 import sys
 
+from rendering.Renderer import Renderer
+
 class Window:
   def __init__(self, width, height, ctx, queue):
     self.w = width
@@ -20,6 +22,8 @@ class Window:
     self.queue = queue
 
   def updateWIN(self):
+    Renderer.renderScene(self.IMGbuf)
+  
     cl.enqueue_copy(self.queue, self.data_out, self.IMGbuf, origin=(0,0,0), region=(self.w,self.h, 1))
     pygame.surfarray.blit_array(self.WIN, self.data_out[:,:,:3].swapaxes(0, 1))
     pygame.display.flip()

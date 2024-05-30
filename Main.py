@@ -7,7 +7,8 @@ from Camera import Camera
 from ObjectsHandler import ObjectsHandler
 from Quaternion import Quaternion
 from Vector3D import v3d
-from Window import Window
+from rendering.Renderer import Renderer
+from rendering.Window import Window
 
 width, height = 800, 600
 
@@ -39,6 +40,7 @@ for i in range(objects):
 ObjectsHandler.buildBuffers()
 
 cam = Camera()
+Renderer.setCam(cam)
 
 # main run loop
 
@@ -53,8 +55,6 @@ def runLoop(run, clockmult):
   # execute code
   evt = prg.redify(queue, (win.w, win.h), None, win.IMGbuf, win.writeIMG, np.uint32(time.time()))
   evt.wait()
-
-  ObjectsHandler.getTransforms(cam)
 
   win.IMGbuf = win.writeIMG
   win.updateWIN()
