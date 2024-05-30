@@ -3,6 +3,7 @@ import time
 import numpy as np
 import pygame
 import pyopencl as cl
+from Camera import Camera
 from ObjectsHandler import ObjectsHandler
 from Quaternion import Quaternion
 from Vector3D import v3d
@@ -32,13 +33,12 @@ prev_time = 0
 
 # object handler init
 ObjectsHandler.init(ctx, queue)
-objects = 100
+objects = 1
 for i in range(objects):
-  ObjectsHandler.addObject(model="./Models/teapot.obj", qat=Quaternion.fromEulerDeg(v3d(np.random.randint(-1800, 1800)/100, np.random.randint(-1800, 1800)/100, np.random.randint(-1800, 1800)/100)),
-                           pos=v3d(np.random.randint(-10000,10000)/100,np.random.randint(-10000,10000)/100,np.random.randint(-10000,10000)/100),
-                           scl=v3d(np.random.randint(-1000,1000)/100,np.random.randint(-1000,1000)/100,np.random.randint(-1000,1000)/100))
+  ObjectsHandler.addObject(model="./Models/teapot.obj")
 ObjectsHandler.buildBuffers()
-ObjectsHandler.getTransforms()
+
+cam = Camera()
 
 # main run loop
 
@@ -54,7 +54,7 @@ def runLoop(run, clockmult):
   evt = prg.redify(queue, (win.w, win.h), None, win.IMGbuf, win.writeIMG, np.uint32(time.time()))
   evt.wait()
 
-  ObjectsHandler.getTransforms()
+  ObjectsHandler.getTransforms(cam)
 
   win.IMGbuf = win.writeIMG
   win.updateWIN()

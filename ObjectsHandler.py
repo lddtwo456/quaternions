@@ -6,6 +6,7 @@ from Model_Utils.VBObuilder import VBObuilder
 from Object import Object
 from Vector3D import v3d
 from Quaternion import Quaternion
+from Camera import Camera
 
 class ObjectsHandler:
   objects = {}
@@ -19,7 +20,7 @@ class ObjectsHandler:
     ObjectsHandler.queue = queue
     VBObuilder.setContext(ctx)
 
-    kernels = ''.join(open('./cl/getTransformMatrix.cl', 'r', encoding='utf-8').readlines())
+    kernels = ''.join(open('./cl/TransformMatrices.cl', 'r', encoding='utf-8').readlines())
     ObjectsHandler.prg = cl.Program(ctx, kernels).build()
   
   unnamedNum = 0
@@ -41,7 +42,7 @@ class ObjectsHandler:
 
       object.buildBuffers()
   
-  def getTransforms():
+  def getTransforms(cam):
     object_vals = ObjectsHandler.objects.values()
     pos_mat = np.array([[obj.pos.x, obj.pos.y, obj.pos.z, 1] for obj in object_vals], dtype=np.float32)
     qat_mat = np.array([[obj.qat.x, obj.qat.y, obj.qat.z, obj.qat.w] for obj in object_vals], dtype=np.float32)
@@ -51,10 +52,13 @@ class ObjectsHandler:
     pos_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=pos_mat)
     qat_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=qat_mat)
     scl_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=scl_mat)
-    out_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.WRITE_ONLY, out_mat.nbytes)
+    out_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_WRITE, out_mat.nbytes)
 
-    ObjectsHandler.prg.getTransformMatrix(ObjectsHandler.queue, pos_mat.shape, None, 
+    ObjectsHandler.prg.getTransformMatrices(ObjectsHandler.queue, pos_mat.shape, None, 
                                           pos_buffer, qat_buffer, scl_buffer, out_buffer, np.int32(len(ObjectsHandler.objects)))
+    
+    ObjectsHandler.prg.applyMatrixToMatrices(ObjectsHandler.queue, pos_mat.shape, None, 
+                                          out_buffer, cam.getTransformBuffer(ObjectsHandler.ctx), out_buffer, np.int32(len(ObjectsHandler.objects)))
     
     cl.enqueue_copy(ObjectsHandler.queue, out_mat, out_buffer).wait()
     

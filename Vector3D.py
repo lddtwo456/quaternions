@@ -20,3 +20,6 @@ class v3d:
       
   def __str__(self):
     return f"v3d x:{round(self.x*1000)/1000}, y:{round(self.y*1000)/1000}, z:{round(self.z*1000)/1000}"
+  
+  def __add__(self, other):
+    return (v3d(self.x+other.x, self.y+other.y, self.z+other.z))
