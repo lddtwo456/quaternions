@@ -33,7 +33,7 @@ prev_time = 0
 
 # object handler init
 ObjectsHandler.init(ctx, queue)
-objects = 1
+objects = 100
 for i in range(objects):
   ObjectsHandler.addObject(model="./Models/teapot.obj")
 ObjectsHandler.buildBuffers()
@@ -59,7 +59,7 @@ def runLoop(run, clockmult):
   win.IMGbuf = win.writeIMG
   win.updateWIN()
 
-  print(time.time()-t)
+  print(1/(time.time()-t))
   clock.tick(60*clockmult)
 
 run = True

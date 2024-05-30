@@ -41,11 +41,12 @@ __kernel void getTransformMatrices(__global float4* position, __global float4* q
   }
 }
 
-__kernel void applyMatrixToMatrices(__global float4x4* matrix_in, const float4x4 B, __global float4x4* outputMatrix, const int numElements) {
+__kernel void applyMatrixToMatrices(__global float4x4* matrix_in, const float4x4 apply_matrix_in, __global float4x4* outputMatrix, const int numElements) {
   int index = get_global_id(0);
 
   if (index < numElements) {
     float4x4 A = matrix_in[index];
+    float4x4 B = apply_matrix_in;
 
     float c11 = A.row[0].x * B.row[0].x + A.row[0].y * B.row[1].x + A.row[0].z * B.row[2].x;
     float c12 = A.row[0].x * B.row[0].y + A.row[0].y * B.row[1].y + A.row[0].z * B.row[2].y;
@@ -58,9 +59,9 @@ __kernel void applyMatrixToMatrices(__global float4x4* matrix_in, const float4x4
     float c33 = A.row[2].x * B.row[0].z + A.row[2].y * B.row[2].z + A.row[2].z * B.row[2].z;
 
     float4x4 finalMatrix = {
-      (float4)(c11,  c12,  c13,  0.0f),
-      (float4)(c21,  c22,  c23,  0.0f),
-      (float4)(c31,  c32,  c33,  0.0f),
+      (float4)(B.row[0].x,  B.row[0].y,  B.row[0].z,  0.0f),
+      (float4)(B.row[1].x,  B.row[1].y,  B.row[1].z,  0.0f),
+      (float4)(B.row[2].x,  B.row[2].y,  B.row[2].z,  0.0f),
       (float4)(0.0f, 0.0f, 0.0f, 1.0f)
     };
 

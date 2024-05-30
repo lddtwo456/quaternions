@@ -37,7 +37,6 @@ class Object:
   def setTransformMatrix(self, matrix):
     # calculated in parallel across all objects by ObjectsHandler.py
     self.matrix = matrix
-    print(matrix)
     
   def buildBuffers(self):
     if self.model == None:

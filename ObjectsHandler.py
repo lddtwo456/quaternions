@@ -52,13 +52,13 @@ class ObjectsHandler:
     pos_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=pos_mat)
     qat_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=qat_mat)
     scl_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=scl_mat)
-    out_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_WRITE, out_mat.nbytes)
+    out_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.WRITE_ONLY, out_mat.nbytes)
 
     ObjectsHandler.prg.getTransformMatrices(ObjectsHandler.queue, pos_mat.shape, None, 
                                           pos_buffer, qat_buffer, scl_buffer, out_buffer, np.int32(len(ObjectsHandler.objects)))
     
     ObjectsHandler.prg.applyMatrixToMatrices(ObjectsHandler.queue, pos_mat.shape, None, 
-                                          out_buffer, cam.getTransformBuffer(ObjectsHandler.ctx), out_buffer, np.int32(len(ObjectsHandler.objects)))
+                                          out_buffer, cam.getTransformMatrix(), out_buffer, np.int32(len(ObjectsHandler.objects)))
     
     cl.enqueue_copy(ObjectsHandler.queue, out_mat, out_buffer).wait()
     
