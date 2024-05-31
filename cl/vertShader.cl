@@ -2,12 +2,12 @@ typedef struct {
     float4 row[4];
 } float4x4;
 
-__kernel void applyTransformMatrixToVBO(__global float* VBO, const float4x4 mat, __global float* VBO_out, const uint num_verts) {
+__kernel void applyTransformMatrixToVBO(__global float* VBO, const float4x4 mat, __global float* VBO_out, const uint num_verts, const uint offset) {
   int index = get_global_id(0);
 
   if (index < num_verts) {
     // prepare offset index
-    int vboi = index * 8;
+    int vboi = index * 8 + offset;
 
     // construct vert as float4 for easy dot with matrix
     float4 vert = (float4)(VBO[vboi], VBO[vboi+1], VBO[vboi+2], 1.0f);
