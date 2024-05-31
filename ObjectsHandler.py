@@ -9,7 +9,7 @@ from Quaternion import Quaternion
 from rendering.Camera import Camera
 
 class ObjectsHandler:
-  objects = {}
+  objects = []
 
   ctx = None
   queue = None
@@ -33,20 +33,18 @@ class ObjectsHandler:
       ObjectsHandler.unnamedNum += 1
     
     # allow for opbjects with no model later
-    ObjectsHandler.objects.update({id : Object(ObjectsHandler.ctx, pos, qat, scl).withModel(model)})
+    ObjectsHandler.objects.append(Object(ObjectsHandler.ctx, pos, qat, scl).withModel(model))
 
   def buildBuffers():
     print("getting Object Buffers...")
-    for key in ObjectsHandler.objects:
-      object = ObjectsHandler.objects[key]
-
-      object.buildBuffers()
+    for obj in ObjectsHandler.objects:
+      obj.buildBuffers()
   
   def getTransforms(cam):
-    object_vals = ObjectsHandler.objects.values()
-    pos_mat = np.array([[obj.pos.x, obj.pos.y, obj.pos.z, 1] for obj in object_vals], dtype=np.float32)
-    qat_mat = np.array([[obj.qat.x, obj.qat.y, obj.qat.z, obj.qat.w] for obj in object_vals], dtype=np.float32)
-    scl_mat = np.array([[obj.scl.x, obj.scl.y, obj.scl.z, 1] for obj in object_vals], dtype=np.float32)
+    objects = ObjectsHandler.objects
+    pos_mat = np.array([[obj.pos.x, obj.pos.y, obj.pos.z, 1] for obj in objects], dtype=np.float32)
+    qat_mat = np.array([[obj.qat.x, obj.qat.y, obj.qat.z, obj.qat.w] for obj in objects], dtype=np.float32)
+    scl_mat = np.array([[obj.scl.x, obj.scl.y, obj.scl.z, 1] for obj in objects], dtype=np.float32)
     out_mat = np.empty((len(ObjectsHandler.objects), 4, 4), dtype=np.float32)
 
     pos_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=pos_mat)
@@ -55,14 +53,14 @@ class ObjectsHandler:
     out_buffer = cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.WRITE_ONLY, out_mat.nbytes)
 
     ObjectsHandler.prg.getTransformMatrices(ObjectsHandler.queue, pos_mat.shape, None, 
-                                          pos_buffer, qat_buffer, scl_buffer, out_buffer, np.int32(len(ObjectsHandler.objects)))
+                                          pos_buffer, qat_buffer, scl_buffer, out_buffer, np.int32(len(objects)))
     
     ObjectsHandler.prg.applyMatrixToMatrices(ObjectsHandler.queue, pos_mat.shape, None, 
-                                          out_buffer, cam.getTransformMatrix(), out_buffer, np.int32(len(ObjectsHandler.objects)))
+                                          out_buffer, cam.getTransformMatrix(), out_buffer, np.int32(len(objects)))
     
     cl.enqueue_copy(ObjectsHandler.queue, out_mat, out_buffer).wait()
     
     i=0
-    for obj in object_vals:
+    for obj in objects:
       obj.setTransformMatrix(out_mat[i])
       i+=1

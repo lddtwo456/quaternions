@@ -2,7 +2,7 @@ typedef struct {
     float4 row[4];
 } float4x4;
 
-__kernel void applyTransformMatrixToVBO(__global const float* VBO, const float4x4 mat, __global float* VBO_out, const int num_verts) {
+__kernel void applyTransformMatrixToVBO(__global float* VBO, const float4x4 mat, __global float* VBO_out, const uint num_verts) {
   int index = get_global_id(0);
 
   if (index < num_verts) {

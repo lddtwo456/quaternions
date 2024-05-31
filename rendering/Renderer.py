@@ -24,12 +24,11 @@ class Renderer:
     # get transform matrices from local coords to projected points
     ObjectsHandler.getTransforms(Renderer.cam)
 
-    for key in ObjectsHandler.objects.keys():
-      obj = ObjectsHandler.objects[key]
+    for obj in ObjectsHandler.objects:
       VBO = obj.VBO
       IBO = obj.IBO
 
       # create empty camera transformed VBO buffer
-      camera_transformed_VBO = cl.Buffer(Renderer.ctx, cl.mem_flags.READ_WRITE, VBO.size)
+      camera_transformed_VBO = cl.Buffer(Renderer.ctx, cl.mem_flags.READ_WRITE, obj.vert_count*8)
 
-      Renderer.vertShader.applyTransformMatrixToVBO(Renderer.queue, (obj.vert_count,), None, VBO, obj.matrix, camera_transformed_VBO, obj.vert_count)
+      Renderer.vertShader.applyTransformMatrixToVBO(Renderer.queue, (obj.vert_count,), None, VBO, obj.matrix, camera_transformed_VBO, np.uint32(obj.vert_count))
