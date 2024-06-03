@@ -1,8 +1,4 @@
-typedef struct {
-    float4 row[4];
-} float4x4;
-
-__kernel void transformVBO(__global float* VBO, const float4x4 mat, __global float* VBO_out, const uint num_verts) {
+__kernel void transformVBO(__global float* VBO, __constant float4* mat, __global float* VBO_out, const uint num_verts) {
   int id = get_global_id(0);
 
   if (id < num_verts) {
@@ -14,10 +10,10 @@ __kernel void transformVBO(__global float* VBO, const float4x4 mat, __global flo
 
     // create transformed vert
     float4 transformed_vert;
-    transformed_vert.x = dot(mat.row[0], vert);
-    transformed_vert.y = dot(mat.row[1], vert);
-    transformed_vert.z = dot(mat.row[2], vert);
-    transformed_vert.w = dot(mat.row[3], vert);
+    transformed_vert.x = dot(mat[0], vert);
+    transformed_vert.y = dot(mat[1], vert);
+    transformed_vert.z = dot(mat[2], vert);
+    transformed_vert.w = dot(mat[3], vert);
 
     // output transformed vertex into VBO
     VBO_out[vboi+0] = transformed_vert.x;
