@@ -1,12 +1,12 @@
 __kernel void transformVBO(__global float* VBO, __constant float4* mat, __global float* VBO_out, const uint num_verts) {
-  int id = get_global_id(0);
+  uint id = get_global_id(0);
 
   if (id < num_verts) {
     // prepare offset index
-    int vboi = id * 8;
+    uint vboi = id*8;
 
     // construct vert as float4 for easy dot with matrix
-    float4 vert = (float4)(VBO[vboi], VBO[vboi+1], VBO[vboi+2], 1.0f);
+    float4 vert = (float4)(vload3(vboi, VBO), 1.0f);
 
     // create transformed vert
     float4 transformed_vert;
