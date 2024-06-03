@@ -54,8 +54,8 @@ def runLoop(run, clockmult):
       sys.exit()
 
   # execute code
-  evt = prg.redify(queue, (win.w, win.h), None, win.IMGbuf, win.writeIMG, np.uint32(time.time()))
-  evt.wait()
+  #evt = prg.redify(queue, (win.w, win.h), None, win.IMGbuf, win.writeIMG, np.uint32(time.time()))
+  #evt.wait()
 
   win.IMGbuf = win.writeIMG
   win.updateWIN()
