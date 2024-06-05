@@ -1,4 +1,4 @@
-__kernel void transformVBO(const float n) {
+__kernel void transformVBO() {
   uint id = get_global_id(0);
 
   uint vboi = id*8;
