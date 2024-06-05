@@ -38,4 +38,4 @@ class VBObuilder:
     vert_matrix = np.array([item for tupletuple in new_vertices for tuple in tupletuple for item in tuple], dtype=np.float32)
     indx_matrix = np.array(new_indices, dtype=np.uint32)
 
-    return cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=vert_matrix), cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=indx_matrix), cl.Buffer(VBObuilder.ctx, cl.mem_flags.READ_WRITE | cl.mem_flags.COPY_HOST_PTR, hostbuf=vert_matrix), np.uint32(len(vert_matrix)/8)
+    return vert_matrix, indx_matrix, np.uint32(len(vert_matrix)/8)
