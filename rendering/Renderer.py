@@ -26,4 +26,4 @@ class Renderer:
     ObjectsHandler.getTransforms(Renderer.cam)
 
     for obj in ObjectsHandler.objects:
-      Renderer.vertShader.transformVBO(Renderer.queue, (obj.VBO.size/32,), (None,), obj.VBO, obj.matrix, obj.outVBO, np.uint32(obj.vert_count)).wait()
+      Renderer.vertShader.transformVBO(Renderer.queue, (np.uint32(obj.VBO.size/32),), None, obj.VBO, obj.matrix, obj.outVBO, np.uint32(obj.vert_count)).wait()
