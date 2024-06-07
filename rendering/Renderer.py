@@ -29,14 +29,15 @@ class Renderer:
     Mats_list = []
     Offs_list = []
     offset = 0
+
     for obj in ObjectsHandler.objects:
       Offs_list.append(offset)
       VBOs_list.append(obj.VBO)
       Mats_list.append(obj.matrix)
       offset += obj.vert_count
 
-    VBOs_mat = np.array(VBOs_list, dtype=np.float32).flatten('C')
-    Mats_mat = np.array(Mats_list, dtype=np.float32).flatten('C')
+    VBOs_mat = np.concatenate(VBOs_list, dtype=np.float32)
+    Mats_mat = np.concatenate([mat.flatten() for mat in Mats_list], dtype=np.float32)
     Offs_mat = np.array(Offs_list, dtype=np.uint32)
 
     VBOs = cl.Buffer(Renderer.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=VBOs_mat)
@@ -44,4 +45,4 @@ class Renderer:
     Mats = cl.Buffer(Renderer.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=Mats_mat)
     Offs = cl.Buffer(Renderer.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=Offs_mat)
 
-    Renderer.vertShader.applyTransformMatrixToVBO(Renderer.queue, (np.uint32(VBOs_mat.size/32),), None, VBOs, Mats, cam_transformed_VBOs, Offs)
+    Renderer.vertShader.transformVBOs(Renderer.queue, (np.uint32(VBOs_mat.size/32),), None, VBOs, Mats, cam_transformed_VBOs, Offs, np.uint32(len(Offs_list)))

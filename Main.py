@@ -34,7 +34,7 @@ prev_time = 0
 
 # object handler init
 ObjectsHandler.init(ctx, queue)
-objects = 10
+objects = 100
 for i in range(objects):
   ObjectsHandler.addObject(model="./Models/teapot.obj")
 ObjectsHandler.buildBuffers()

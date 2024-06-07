@@ -62,5 +62,5 @@ class ObjectsHandler:
     
     i=0
     for obj in objects:
-      obj.setTransformMatrix(cl.Buffer(ObjectsHandler.ctx, cl.mem_flags.READ_ONLY | cl.mem_flags.COPY_HOST_PTR, hostbuf=out_mat[i]))
+      obj.setTransformMatrix(out_mat[i])
       i+=1
